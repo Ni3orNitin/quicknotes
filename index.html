@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>QuickNotes</title>
+  <meta name="description" content="Offline notes and to-do list. Everything is stored on your device.">
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="brand">QuickNotes</h1>
+
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-notes" data-tab="notes" aria-selected="true" aria-controls="notesView">Notes</button>
+      <button role="tab" id="tab-todos" data-tab="todos" aria-selected="false" aria-controls="todosView">
+        To-Do <span id="todoBadge" class="badge" hidden>0</span>
+      </button>
+    </nav>
+
+    <div class="top-actions">
+      <button id="installBtn" class="ghost small" hidden>Install</button>
+      <button id="exportBtn" class="ghost small" title="Download a backup of all notes and tasks">Backup</button>
+      <button id="importBtn" class="ghost small" title="Restore from a backup file">Restore</button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= NOTES ================= -->
+    <section id="notesView" class="view notes" role="tabpanel" aria-labelledby="tab-notes">
+      <aside class="list-pane">
+        <div class="list-tools">
+          <input type="search" id="search" placeholder="Search notes…" aria-label="Search notes" autocomplete="off">
+          <button id="newNote" class="primary">+ New</button>
+        </div>
+        <ul id="noteList" class="note-list"></ul>
+        <p id="noteEmpty" class="empty" hidden></p>
+      </aside>
+
+      <div class="editor-pane">
+        <div id="editor" class="editor" hidden>
+          <div class="editor-bar">
+            <button id="backBtn" class="ghost back" aria-label="Back to notes">← Notes</button>
+            <span id="saveStatus" class="save-status" aria-live="polite">Saved</span>
+            <span class="spacer"></span>
+            <button id="pinBtn" class="ghost" aria-pressed="false">Pin</button>
+            <button id="deleteNote" class="ghost danger">Delete</button>
+          </div>
+          <input id="noteTitle" class="note-title" placeholder="Title" aria-label="Note title" autocomplete="off">
+          <textarea id="noteBody" class="note-body" placeholder="Start writing…" aria-label="Note body"></textarea>
+          <div id="noteMeta" class="meta"></div>
+        </div>
+        <div id="editorEmpty" class="editor-empty">
+          <p>Select a note, or create a new one.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TO-DO ================= -->
+    <section id="todosView" class="view todos" role="tabpanel" aria-labelledby="tab-todos" hidden>
+      <div class="todo-wrap">
+        <form id="todoForm" class="todo-form" autocomplete="off">
+          <input id="todoInput" placeholder="Add a task…" aria-label="New task" maxlength="300" required>
+          <button class="primary" type="submit">Add</button>
+        </form>
+
+        <div class="filters" role="group" aria-label="Filter tasks">
+          <button class="chip" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip" data-filter="active" aria-pressed="false">Active</button>
+          <button class="chip" data-filter="done" aria-pressed="false">Done</button>
+        </div>
+
+        <ul id="todoList" class="todo-list"></ul>
+        <p id="todoEmpty" class="empty" hidden></p>
+
+        <div class="todo-footer">
+          <span id="todoCount"></span>
+          <button id="clearDone" class="ghost small">Clear completed</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
